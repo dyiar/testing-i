@@ -62,4 +62,14 @@ function fail(item) {
       return newItem
 }
 
-function repair(item) {}
+function repair(item) {
+    const newItem = {
+        originalName: item.originalName,
+        name: `[+${item.enhancement}] ${item.originalName}`,
+        type: item.type,
+        durability: 100,
+        enhancement: item.enhancement
+      };
+
+    return newItem;
+}

@@ -6,7 +6,7 @@ describe("enhancer library", () => {
       originalName: "BF Sword",
       name: "BF Sword",
       type: "weapon",
-      durability: 9,
+      durability: 10,
       enhancement: 15
     };
 
@@ -14,8 +14,8 @@ describe("enhancer library", () => {
       originalName: "BF Sword",
       name: "[PRI] BF Sword",
       type: "weapon",
-      durability: 9,
-      enhancement: 'PRI'
+      durability: 10,
+      enhancement: "PRI"
     };
 
     it("should give me back the same item", () => {
@@ -28,38 +28,61 @@ describe("enhancer library", () => {
       expect(item.type).toBe("weapon" || "armor");
     });
 
-    it('if enhancement is < 14, durability cant be below 25', () => {
-        if(item.enhancement < 14) {
-            expect(item.durability).not.toBeLessThan(25)
-        }
-    })
+    it("if enhancement is < 14, durability cant be below 25", () => {
+      if (item.enhancement < 14) {
+        expect(item.durability).not.toBeLessThan(25);
+      }
+    });
 
-    it('if enhancement is >15, durability cant be below 10', () => {
-        if(item.enhancement > 14 || NaN) {
-            expect(item.durability).not.toBeLessThan(10)
-        }
-    })
+    it("if enhancement is >15, durability cant be below 10", () => {
+      if (item.enhancement > 14 || NaN) {
+        expect(item.durability).not.toBeLessThan(10);
+      }
+    });
   });
 
-  describe('fail() method', () => {
+  describe("fail() method", () => {
+    const item = {
+      originalName: "BF Sword",
+      name: "BF Sword",
+      type: "weapon",
+      durability: 100,
+      enhancement: "PEN"
+    };
+    const expected = {
+      originalName: "BF Sword",
+      name: "[TET] BF Sword",
+      type: "weapon",
+      durability: 90,
+      enhancement: "TET"
+    };
+
+    it("should decrease durability by 5 if enhancement is between 0-14 and by 10 if between 15-PEN", () => {
+      const actual = enhancer.fail(item);
+      expect(actual).toEqual(expected);
+    });
+  });
+
+  describe('repair() method', () => {
     const item = {
         originalName: "BF Sword",
         name: "BF Sword",
         type: "weapon",
-        durability: 100,
-        enhancement: 'PEN'
-      };
-      const expected = {
-        originalName: "BF Sword",
-        name: "[TET] BF Sword",
-        type: "weapon",
-        durability: 90,
-        enhancement: 'TET'
+        durability: 50,
+        enhancement: 12
       };
 
-      it('should decrease durability by 5 if enhancement is between 0-14 and by 10 if between 15-PEN', () => {
-          const actual = enhancer.fail(item);
-          expect(actual).toEqual(expected)
-      })
+      const expected = {
+        originalName: "BF Sword",
+        name: "[+12] BF Sword",
+        type: "weapon",
+        durability: 100,
+        enhancement: 12
+      };
+
+    it('should bring durability back to 100', () => {
+        const actual = enhancer.repair(item);
+        expect(actual).toEqual(expected)
+    })
   })
 });
