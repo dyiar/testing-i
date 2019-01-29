@@ -6,16 +6,16 @@ describe("enhancer library", () => {
       originalName: "BF Sword",
       name: "BF Sword",
       type: "weapon",
-      durability: 10,
-      enhancement: 15
+      durability: 50,
+      enhancement: 'PEN'
     };
 
     const expected = {
       originalName: "BF Sword",
-      name: "[PRI] BF Sword",
+      name: "[PEN] BF Sword",
       type: "weapon",
-      durability: 10,
-      enhancement: "PRI"
+      durability: 50,
+      enhancement: 'PEN'
     };
 
     it("should give me back the same item", () => {
@@ -39,6 +39,16 @@ describe("enhancer library", () => {
         expect(item.durability).not.toBeLessThan(10);
       }
     });
+
+    it("expects durability cant be more than 100", () => {
+      expect(item.durability).not.toBeGreaterThan(100);
+    });
+
+    // it("should not let enhancement go below 0 or above PEN", () => {
+    //     expect(item.enhancement).toBe(
+    //       "PRI" || "DUO" || "TRI" || "TET" || "PEN" || 1 || 2 || 3 || 4 || 5 || 6 || 7 || 8 || 9 || 10 || 11 || 12 || 13 || 14 || 15
+    //     )
+    // });
   });
 
   describe("fail() method", () => {
@@ -63,26 +73,26 @@ describe("enhancer library", () => {
     });
   });
 
-  describe('repair() method', () => {
+  describe("repair() method", () => {
     const item = {
-        originalName: "BF Sword",
-        name: "BF Sword",
-        type: "weapon",
-        durability: 50,
-        enhancement: 12
-      };
+      originalName: "BF Sword",
+      name: "BF Sword",
+      type: "weapon",
+      durability: 50,
+      enhancement: 12
+    };
 
-      const expected = {
-        originalName: "BF Sword",
-        name: "[+12] BF Sword",
-        type: "weapon",
-        durability: 100,
-        enhancement: 12
-      };
+    const expected = {
+      originalName: "BF Sword",
+      name: "[+12] BF Sword",
+      type: "weapon",
+      durability: 100,
+      enhancement: 12
+    };
 
-    it('should bring durability back to 100', () => {
-        const actual = enhancer.repair(item);
-        expect(actual).toEqual(expected)
-    })
-  })
+    it("should bring durability back to 100", () => {
+      const actual = enhancer.repair(item);
+      expect(actual).toEqual(expected);
+    });
+  });
 });
